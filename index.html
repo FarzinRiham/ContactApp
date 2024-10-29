@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"> </script>
+
+    <style>
+        h1 {
+            background-color:aquamarine;
+            color: rgb(0, 125, 90);
+            font-family: cursive;
+        }
+
+        body {
+            background-image: url("frutiger.jpeg");
+            background-size: cover;
+            color: darkslategray;
+        }
+
+        button{
+            border-radius: 100px;
+            height:80px;
+            width:80px;
+            margin:5px;
+            background-color:rgb(73, 197, 255);
+            color:white;
+            font-weight:bold;
+            font-size:15px;
+            padding:5px;
+        }
+
+        button:hover {
+            border: solid 2px lightblue;
+        }
+
+        h1 {
+            font-size:40px;
+        }
+
+        #container {
+            display: flex;
+            flex-direction:column;
+            align-items: center;
+        }
+
+        #button-container {
+            display:flex;
+        }
+
+        .contact-card {
+            padding:5px;
+            height:100px;
+            width: 200px;
+            border:solid black 1px;
+            display:flex;
+            margin: 10px;
+        }
+
+        .printed {
+            display:flex;
+            height:200px;
+            width: 900px;
+            border:solid purple 2px;
+            background-color: pink;
+            opacity: 90%;
+        }
+
+        .printed2 {
+            display:flex;
+            height:200px;
+            width: 900px;
+            border:solid purple 2px;
+            background-color: blanchedalmond;
+            opacity: 90%;
+        }
+
+    </style>
+
+    </head>
+
+    <body>
+        <div id = container>
+            <h1>My Phonebook</h1>
+            <div id = button-container>
+                <button id = add onclick="addContact()">Add Contact</button>
+                <button id = retrieve onclick="retrieveContact()">Retrieve Contact</button>
+                <button id = print onclick="printContacts()">Print Contacts</button>
+            </div>
+            <div id = contact-reveal class="printed"></div>
+
+            <div id = print-contacts class="printed2"></div>
+        </div>
+       
+        <script>  
+            if (localStorage.phonebookLocal != null) {
+                phonebook = JSON.parse(localStorage.phonebookLocal);
+            } else {
+                phonebook = [];
+            }
+
+            let contact = {
+                firstName: "Farzin",
+                lastName: "Riham",
+                phoneNum: "347-hate-mylife",
+            }
+            console.log(contact.firstName);
+            console.log(contact.lastName);
+            console.log(contact.phoneNum);
+
+
+            function addContact() {
+                let first = prompt("What is this contact's first name?");
+                let last = prompt("What is this contact's last name?");
+                let num =  prompt("What is this contact's phone number?");
+
+
+                let newContact = {
+                    firstName: first,
+                    lastName: last,
+                    phoneNum: num,
+                }
+
+
+                phonebook.push(newContact);
+
+
+                console.log(newContact.firstName);
+                console.log(newContact.lastName);
+                console.log(newContact.phoneNum);
+
+
+            }
+
+
+            function contactExists(first, last) {
+                for (i = 0; i < phonebook.length; i++) {
+                    if (first = phonebook[i].firstName) {
+                        if (last = phonebook[i].lastName) {
+                            return true;
+                        }
+                    }
+                } return false;
+            }
+
+
+            function findNum(first, last) {
+                for (let i = 0; i < phonebook.length; i++) {
+                    if (first = phonebook[i].firstName) {
+                        if (last = phonebook[i].lastName) {
+                            return phonebook[i].phoneNum;
+                        }
+                    }
+                }
+            }
+           
+            function retrieveContact() {
+                first = prompt("What is the first name of this contact you're looking for?");
+                last = prompt("What is the last name of this contact you're looking for?");
+                if (contactExists(first, last)) {
+                    var seeContact = document.getElementById("contact-reveal");
+                    var number =  findNum(first, last);
+                    $("#contact-reveal").append("<p>" + " You have requested for -> Contact: " + first + ", " + last + ", " + number + " | " + "<p>");
+                }
+            }
+
+            function printContacts() {
+                for (let i = 0; i < phonebook.length; i++) {
+                    $("#print-contacts").append("<p>" + " Contact " + (i+1) + ": " + phonebook[i].firstName + ", " + phonebook[i].lastName + ", " + phonebook[i].phoneNum + " | " + "<p>");
+                }
+            }
+
+        </script>
+    </body>
+</html>
